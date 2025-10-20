@@ -8,7 +8,7 @@ app = Flask(__name__)
 QR_FOLDER = "static/qr_codes"
 os.makedirs(QR_FOLDER, exist_ok=True)
 
-PUBLIC_URL = "https://thumblike-unactionable-tawanna.ngrok-free.dev/main"
+PUBLIC_URL = "https://menu-qr-project.onrender.com"
 qr_path = os.path.join(QR_FOLDER, "menu_global.png")
 
 # === GÉNÉRATION DU QR CODE ===
