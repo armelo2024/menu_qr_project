@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ establishment.name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <img src="{{ establishment.image_url }}" alt="{{ establishment.name }}">
+            <h3>{{ establishment.name }}</h3>
+            <p><b>{{ establishment.type }}</b></p>
+            <p>{{ establishment.description }}</p>
+            <iframe src="{{ establishment.menu_url }}" width="100%" height="500px"></iframe>
+            <a href="/main">⬅ Retour</a>
+        </div>
+    </div>
+</body>
+
+</html>

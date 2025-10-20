@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Annuaire des Établissements</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+
+<body>
+    <header>
+        <h1>🍽️ Explorer nos établissements</h1>
+        <div class="filters">
+            <button onclick="filterType('')">Tous</button>
+            <button onclick="filterType('Restaurant')">Restaurants</button>
+            <button onclick="filterType('Bar')">Bars</button>
+            <button onclick="filterType('Hôtel')">Hôtels</button>
+        </div>
+    </header>
+
+    <main id="list" class="cards-container">
+        <p>Chargement des établissements...</p>
+    </main>
+
+    <script>
+        let allEstablishments = [];
+
+        async function loadEstablishments() {
+            try {
+                const res = await fetch("/api/establishments");
+                allEstablishments = await res.json();
+                displayEstablishments(allEstablishments);
+            } catch (err) {
+                document.getElementById("list").innerHTML =
+                    "<p>Erreur de chargement 😢</p>";
+            }
+        }
+
+        function displayEstablishments(data) {
+            const container = document.getElementById("list");
+            container.innerHTML = "";
+
+            if (data.length === 0) {
+                container.innerHTML = "<p>Aucun établissement trouvé.</p>";
+                return;
+            }
+
+            data.forEach((est) => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+          <a href="/establishment/${est.id}" class="link-card">
+            <img src="${est.image_url}" alt="${est.name}">
+            <div class="info">
+              <h3>${est.name}</h3>
+              <p><b>${est.type}</b> - ${est.location}</p>
+              <p>${est.description}</p>
+              <span class="open-btn">👁️ Voir les détails</span>
+            </div>
+          </a>
+        `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterType(type) {
+            if (!type) {
+                displayEstablishments(allEstablishments);
+            } else {
+                const filtered = allEstablishments.filter(
+                    (est) => est.type.toLowerCase() === type.toLowerCase()
+                );
+                displayEstablishments(filtered);
+            }
+        }
+
+        loadEstablishments();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ establishment.name if establishment.name else "Détails" }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #fff8f0;
+        }
+        
+        .header {
+            background: #d4af37;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+        }
+        
+        .container {
+            padding: 15px;
+        }
+        
+        img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+            margin: 15px auto;
+        }
+        
+        .pdf-viewer {
+            margin-top: 15px;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        
+        .placeholder {
+            width: 100%;
+            max-height: 200px;
+            background: #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 18px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">{{ establishment.name if establishment.name else "Détails" }}</div>
+
+    <div class="container">
+        <!-- Image avec fallback -->
+        {% if establishment.image_url %}
+        <img src="{{ establishment.image_url }}" alt="{{ establishment.name }}"> {% else %}
+        <div class="placeholder">Image non disponible</div>
+        {% endif %}
+
+        <p>{{ establishment.description if establishment.description else "Description non disponible." }}</p>
+        <p><strong>Type :</strong> {{ establishment.type if establishment.type else "N/A" }}</p>
+        <p><strong>Localisation :</strong> {{ establishment.location if establishment.location else "N/A" }}</p>
+
+        <!-- PDF avec fallback -->
+        <div class="pdf-viewer">
+            {% if establishment.menu_url %}
+            <iframe src="{{ establishment.menu_url }}"></iframe> {% else %}
+            <div class="placeholder" style="height:400px;">PDF non disponible</div>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+
+</html>

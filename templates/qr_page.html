@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Scanner le QR Code</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f2f2f2;
+            flex-direction: column;
+        }
+        
+        img {
+            width: 200px;
+            height: 200px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Scannez le QR Code pour accéder au menu</h2>
+    <img src="{{ url_for('static', filename='qr_codes/menu_global.png') }}" alt="QR Code">
+</body>
+
+</html>
