@@ -1,30 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Scanner le QR Code</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #f2f2f2;
-            flex-direction: column;
-        }
-        
-        img {
-            width: 200px;
-            height: 200px;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scanner | SmartMenu Africa</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+  
+  <h1 class="text-3xl font-bold text-yellow-600 mb-6">SmartMenu Africa</h1>
+  
+  <!-- QR code global -->
+  <div class="bg-white shadow-md rounded-xl p-4">
+    <img src="{{ url_for('static', filename='qr_codes/menu_global.png') }}" alt="QR Code SmartMenu" class="w-56 mx-auto">
+  </div>
 
-<body>
-    <h2>Scannez le QR Code pour accéder au menu</h2>
-    <img src="{{ url_for('static', filename='qr_codes/menu_global.png') }}" alt="QR Code">
+  <!-- Bouton pour scanner -->
+  <button id="btnScan" class="mt-6 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg">
+    📷 Scanner un QR code
+  </button>
+
+  <!-- Zone de caméra -->
+  <div id="reader" class="mt-6 hidden w-full max-w-md"></div>
+
+  <script>
+    const btnScan = document.getElementById('btnScan');
+    const readerDiv = document.getElementById('reader');
+
+    btnScan.addEventListener('click', () => {
+      btnScan.classList.add('hidden');
+      readerDiv.classList.remove('hidden');
+      const html5QrCode = new Html5Qrcode("reader");
+
+      html5QrCode.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: 250
+        },
+        (decodedText) => {
+          console.log(`QR code détecté : ${decodedText}`);
+          window.location.href = decodedText; // redirige automatiquement
+        },
+        (errorMessage) => {
+          console.log(`Erreur de lecture : ${errorMessage}`);
+        }
+      ).catch(err => console.error("Erreur de démarrage :", err));
+    });
+  </script>
+
 </body>
-
 </html>
+
+
